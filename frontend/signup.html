@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up · CareerInfinity</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="card auth-card p-4">
+      <h4 class="mb-1">CareerInfinity</h4>
+      <p class="text-muted">Create an account to get career recommendations.</p>
+      <div id="message" class="alert d-none py-2" role="alert"></div>
+      <form id="signupForm">
+        <label class="form-label" for="name">Full name</label>
+        <input class="form-control mb-3" id="name" required>
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control mb-3" type="email" id="email" required>
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control mb-3" type="password" id="password" minlength="6" required>
+        <button class="btn btn-primary w-100" id="submitBtn">Create account</button>
+      </form>
+      <p class="mt-3 mb-0 text-center">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </div>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
