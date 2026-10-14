@@ -38,6 +38,10 @@ async function loadDashboard() {
     const d = await apiFetch("/dashboard");
     if (!d) return;
 
+    if (!d.has_profile) {
+      document.getElementById("profileBanner").classList.remove("d-none");
+    }
+
     document.getElementById("welcome").textContent =
       "Welcome back, " + d.user.name.split(" ")[0];
     document.getElementById("avatar").textContent =

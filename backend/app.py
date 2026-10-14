@@ -1,7 +1,8 @@
 import os
+from datetime import datetime, timezone
 from functools import wraps
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from supabase import create_client
 
@@ -19,6 +20,13 @@ def get_client():
     return create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
+def user_client():
+    """Supabase client that acts as the logged-in user (so RLS applies)."""
+    client = get_client()
+    client.postgrest.auth(g.token)
+    return client
+
+
 def token_required(view):
     """Protects a route: checks the 'Authorization: Bearer <token>' header."""
     @wraps(view)
@@ -33,8 +41,28 @@ def token_required(view):
                 return jsonify(error="Invalid token"), 401
         except Exception:
             return jsonify(error="Invalid or expired token"), 401
+        g.token = token
         return view(res.user, *args, **kwargs)
     return wrapper
+
+
+def clean_list(value, limit=50):
+    """Turns 'a, b, c' or ['a','b'] into a clean list without duplicates."""
+    if isinstance(value, str):
+        value = value.split(",")
+    out, seen = [], set()
+    for item in value or []:
+        s = str(item).strip()
+        if s and s.lower() not in seen:
+            seen.add(s.lower())
+            out.append(s[:60])
+    return out[:limit]
+
+
+def load_profile(user):
+    res = (user_client().table("profiles")
+           .select("*").eq("user_id", user.id).execute())
+    return res.data[0] if res.data else None
 
 
 @app.post("/api/signup")
@@ -88,20 +116,74 @@ def me(user):
     )
 
 
+@app.get("/api/profile")
+@token_required
+def get_profile(user):
+    try:
+        return jsonify(profile=load_profile(user))
+    except Exception as e:
+        print("Profile load error:", e)
+        return jsonify(error="Could not load your profile."), 500
+
+
+@app.put("/api/profile")
+@token_required
+def save_profile(user):
+    body = request.get_json(silent=True) or {}
+
+    try:
+        years = max(0, min(60, int(body.get("experience_years") or 0)))
+    except (TypeError, ValueError):
+        return jsonify(error="Experience must be a number of years."), 400
+
+    skills = clean_list(body.get("skills"))
+    if not skills:
+        return jsonify(error="Add at least one skill."), 400
+
+    row = {
+        "user_id": user.id,
+        "target_role": (body.get("target_role") or "").strip()[:100],
+        "education": (body.get("education") or "").strip()[:100],
+        "field_of_study": (body.get("field_of_study") or "").strip()[:100],
+        "experience_years": years,
+        "skills": skills,
+        "certifications": clean_list(body.get("certifications")),
+        "summary": (body.get("summary") or "").strip()[:1000],
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }
+    try:
+        res = (user_client().table("profiles")
+               .upsert(row, on_conflict="user_id").execute())
+        return jsonify(message="Profile saved.", profile=res.data[0])
+    except Exception as e:
+        print("Profile save error:", e)
+        return jsonify(error="Could not save your profile."), 500
+
+
 @app.get("/api/dashboard")
 @token_required
 def dashboard(user):
-    # Placeholder data. Later this comes from the ML model and database.
+    try:
+        profile = load_profile(user)
+    except Exception as e:
+        print("Dashboard profile error:", e)
+        profile = None
+
+    skills = len(profile["skills"] or []) if profile else 0
+    certs = len(profile["certifications"] or []) if profile else 0
+
+    # Score, paths and drive are still placeholders. The ML model replaces them later.
     return jsonify(
         user={
             "email": user.email,
             "name": (user.user_metadata or {}).get("full_name", "there"),
         },
+        has_profile=profile is not None,
         score=85,
-        skills=24,
-        skills_change="+12% this month",
-        certs=6,
-        certs_change="+20% this month",
+        skills=skills,
+        skills_change="From your profile",
+        certs=certs,
+        certs_change="From your profile",
         paths=[
             {"name": "Software Developer", "match": 92},
             {"name": "Data Analyst", "match": 88},
@@ -109,7 +191,7 @@ def dashboard(user):
         ],
         drive={"company": "Infosys", "role": "Software Developer"},
     )
-    
-    
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
