@@ -88,5 +88,28 @@ def me(user):
     )
 
 
+@app.get("/api/dashboard")
+@token_required
+def dashboard(user):
+    # Placeholder data. Later this comes from the ML model and database.
+    return jsonify(
+        user={
+            "email": user.email,
+            "name": (user.user_metadata or {}).get("full_name", "there"),
+        },
+        score=85,
+        skills=24,
+        skills_change="+12% this month",
+        certs=6,
+        certs_change="+20% this month",
+        paths=[
+            {"name": "Software Developer", "match": 92},
+            {"name": "Data Analyst", "match": 88},
+            {"name": "Cloud Engineer", "match": 80},
+        ],
+        drive={"company": "Infosys", "role": "Software Developer"},
+    )
+    
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
