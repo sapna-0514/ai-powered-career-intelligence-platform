@@ -4,11 +4,18 @@ from functools import wraps
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
-from supabase import create_client
+from supabase import create_client 
+from resume_parser import extract_text, parse_resume
 
 load_dotenv()
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024   # 5 MB upload limit
+
+
+@app.errorhandler(413)
+def too_large(e):
+    return jsonify(error="File is too large. The limit is 5 MB."), 413
 # Lets the frontend (Live Server, port 5500) call this API (port 5000)
 CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
 
@@ -158,6 +165,28 @@ def save_profile(user):
     except Exception as e:
         print("Profile save error:", e)
         return jsonify(error="Could not save your profile."), 500
+
+@app.post("/api/resume/parse")
+@token_required
+def parse_resume_route(user):
+    f = request.files.get("resume")
+    if not f or not f.filename:
+        return jsonify(error="Choose a resume file first."), 400
+
+    ext = f.filename.rsplit(".", 1)[-1].lower()
+    if ext not in ("pdf", "docx"):
+        return jsonify(error="Only PDF and DOCX files are supported."), 400
+
+    try:
+        text = extract_text(f, ext)
+    except Exception as e:
+        print("Resume read error:", e)
+        return jsonify(error="Could not read this file. Try another copy."), 400
+
+    if len(text.strip()) < 50:
+        return jsonify(error="No readable text found. Scanned resumes are not supported yet."), 400
+
+    return jsonify(parsed=parse_resume(text))
 
 
 @app.get("/api/dashboard")

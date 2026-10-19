@@ -10,7 +10,11 @@ function logout() {
 
 // One helper for every API call. It adds the token automatically.
 async function apiFetch(path, options = {}) {
-  const headers = { "Content-Type": "application/json" };
+  const headers = {};
+  // For file uploads (FormData) the browser sets the content type itself.
+  if (!(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
   const token = getToken();
   if (token) headers["Authorization"] = "Bearer " + token;
 

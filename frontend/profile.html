@@ -34,6 +34,14 @@
       <p class="text-muted">Your skills and background are used to predict your best career paths.</p>
 
       <div id="message" class="alert d-none py-2" role="alert"></div>
+      <div class="card p-4 mb-3" style="max-width: 720px;">
+        <h5>Upload your resume</h5>
+        <p class="text-muted small mb-2">PDF or DOCX, up to 5 MB. We fill in the form below so you can check it and save. The file itself is not stored.</p>
+        <div class="d-flex gap-2 flex-wrap">
+          <input class="form-control" type="file" id="resumeFile" accept=".pdf,.docx" style="max-width: 320px;">
+          <button class="btn btn-outline-primary" id="parseBtn" type="button">Read resume</button>
+        </div>
+      </div>
 
       <form id="profileForm" class="card p-4" style="max-width: 720px;">
         <div class="row g-3">
