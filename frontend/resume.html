@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resume Analyzer · CareerInfinity</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">CareerInfinity</div>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html">My Profile</a>
+        <a href="careers.html">Career Intelligence</a>
+        <a href="#">Skill Analysis</a>
+        <a href="#">Learning Path</a>
+        <a class="active" href="resume.html">Resume Analyzer</a>
+        <a href="#">Mock Interview</a>
+        <a href="#">Job Recommendations</a>
+        <a href="#">Placement Drives</a>
+        <a href="#">Assessments</a>
+        <a href="#">Certificates</a>
+        <a href="#">Settings</a>
+        <a href="#">Help &amp; Support</a>
+      </nav>
+      <a class="logout" href="#" id="logoutBtn">Sign out</a>
+    </aside>
+
+    <main class="content">
+      <h3 class="mb-0">Resume Analyzer</h3>
+      <p class="text-muted">Upload a resume to see what we find, the careers it fits, and how to improve it.</p>
+
+      <div id="message" class="alert d-none" role="alert"></div>
+
+      <div class="card p-3 mb-3" style="max-width: 820px;">
+        <div class="d-flex gap-2 flex-wrap">
+          <input class="form-control" type="file" id="resumeFile" accept=".pdf,.docx" style="max-width: 320px;">
+          <button class="btn btn-primary" id="analyzeBtn" type="button">Analyze resume</button>
+        </div>
+        <small class="text-muted mt-2">PDF or DOCX, up to 5 MB. The file is read in memory and not stored.</small>
+      </div>
+
+      <div id="results" class="d-none" style="max-width: 820px;">
+        <div class="card p-3 mb-3">
+          <h5>What we found</h5>
+          <div id="facts" class="small text-muted mb-2"></div>
+          <div id="skills"></div>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <h5 class="mb-0">Careers this resume fits</h5>
+          <small class="text-muted">Predicted from the full resume text. Confidence is the model's probability.</small>
+          <div id="careers"></div>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h5 class="mb-0">Skill gap</h5>
+            <select class="form-select" id="gapSelect" style="max-width: 260px;"></select>
+          </div>
+          <div id="gap" class="mt-3"></div>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <h5>Ways to improve this resume</h5>
+          <ul id="tips" class="mb-0"></ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/resume.js"></script>
+</body>
+</html>

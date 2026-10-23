@@ -1,4 +1,6 @@
-import os
+import os 
+import json
+import re
 from datetime import datetime, timezone
 from functools import wraps
 from pathlib import Path
@@ -116,6 +118,65 @@ def load_profile(user):
            .select("*").eq("user_id", user.id).execute())
     return res.data[0] if res.data else None
 
+
+
+# ---------- Resume analysis helpers ----------
+CAREER_SKILLS_PATH = Path(__file__).parent / "models" / "career_skills.json"
+_career_skills = None
+
+
+def get_career_skills():
+    global _career_skills
+    if _career_skills is None:
+        _career_skills = (json.loads(CAREER_SKILLS_PATH.read_text(encoding="utf-8"))
+                          if CAREER_SKILLS_PATH.exists() else {})
+    return _career_skills
+
+
+def strip_title(text):
+    """Removes the leading ALL-CAPS job title (the model was trained without it)."""
+    words = str(text).split()
+    i = 0
+    while i < len(words) and (words[i].isupper() or words[i] in {"&", "/", "-", "|"}):
+        i += 1
+    return " ".join(words[i:]) if i < len(words) else " ".join(words)
+
+
+def skill_gap(key, user_skills):
+    """Compares the user's skills with the typical skills of one career."""
+    prof = get_career_skills().get(key)
+    if not prof or not prof["skills"]:
+        return {"has_data": False, "have": [], "missing": [], "alignment": None}
+    have_set = {s.lower() for s in user_skills}
+    have, missing, total, got = [], [], 0.0, 0.0
+    for skill, share in prof["skills"]:
+        total += share
+        if skill.lower() in have_set:
+            have.append(skill)
+            got += share
+        else:
+            missing.append({"skill": skill, "share": round(share * 100)})
+    return {"has_data": True, "have": have, "missing": missing,
+            "alignment": round(got / total * 100)}
+
+
+def resume_tips(text, parsed):
+    """Simple rule-based advice. These are heuristics, not model output."""
+    tips = []
+    words = len(text.split())
+    if words < 250:
+        tips.append(f"Your resume is short ({words} words). Add more detail on projects and results.")
+    if words > 1200:
+        tips.append(f"Your resume is long ({words} words). Aim for one or two pages.")
+    if len(parsed["skills"]) < 8:
+        tips.append("Few skills were detected. List your technical skills clearly in a Skills section.")
+    if not parsed["education"]:
+        tips.append("No degree was detected. State your degree and field of study.")
+    if not parsed["certifications"]:
+        tips.append("No certifications were detected. Add relevant courses or certificates.")
+    if not re.search(r"\d+\s*%|\d+\s*\+", text):
+        tips.append("Add measurable results, such as percentages or counts, to your project descriptions.")
+    return tips
 
 # ---------- Auth ----------
 @app.post("/api/signup")
@@ -254,6 +315,39 @@ def predict(user):
     return jsonify(careers=predict_careers(profile))
 
 
+@app.post("/api/resume/analyze")
+@token_required
+def analyze_resume(user):
+    model = get_model()
+    if model is None:
+        return jsonify(error="The model is not available yet. Run train_baseline_tuned.py."), 503
+
+    f = request.files.get("resume")
+    if not f or not f.filename:
+        return jsonify(error="Choose a resume file first."), 400
+    ext = f.filename.rsplit(".", 1)[-1].lower()
+    if ext not in ("pdf", "docx"):
+        return jsonify(error="Only PDF and DOCX files are supported."), 400
+
+    try:
+        text = extract_text(f, ext)
+    except Exception as e:
+        print("Resume read error:", e)
+        return jsonify(error="Could not read this file. Try another copy."), 400
+    if len(text.strip()) < 50:
+        return jsonify(error="No readable text found. Scanned resumes are not supported yet."), 400
+
+    parsed = parse_resume(text)
+    proba = model.predict_proba([strip_title(text)])[0]
+    careers, gaps = [], {}
+    for i in proba.argsort()[::-1][:5]:
+        key = str(model.classes_[i])
+        careers.append({"key": key, "name": pretty(key),
+                        "confidence": round(float(proba[i]) * 100, 1)})
+        gaps[key] = skill_gap(key, parsed["skills"])
+
+    return jsonify(parsed=parsed, careers=careers, gaps=gaps,
+                   tips=resume_tips(text, parsed))
 # ---------- Dashboard ----------
 @app.get("/api/dashboard")
 @token_required
