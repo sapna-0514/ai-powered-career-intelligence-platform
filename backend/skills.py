@@ -94,7 +94,7 @@ SKILLS = {
     "Data Structures & Algorithms": ["dsa", "data structures and algorithms", "data structures"],
     "Object-Oriented Programming": ["oop", "oops", "object oriented programming"],
     "Operating Systems": ["operating system"],
-    "Networking": ["computer networks", "computer network"],
+    "Networking": ["computer networks", "computer network", "computer networking", "network administration"],
     "System Design": [],
     # Other technical
     "Cybersecurity": ["cyber security", "information security"],
