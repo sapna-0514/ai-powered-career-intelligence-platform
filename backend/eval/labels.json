@@ -1,0 +1,68 @@
+{
+  "resume01": {
+    "skills": [
+      "HTML5", "CSS", "JavaScript", "MERN Stack", "React.js", "Node.js",
+      "Express.js", "Bootstrap", "Tailwind CSS", "Git", "GitHub", "VS Code",
+      "Excel", "PowerPoint", "Data Structures & Algorithms",
+      "Object-Oriented Programming", "Operating Systems", "DBMS",
+      "Computer Networks", "API Development", "Generative AI", "Render",
+            "Google Gemini API", "MongoDB", "System Design", "JWT Authentication"
+    ],
+    "education": "Bachelor's degree"
+  },
+  "resume02": {
+    "skills": [
+      "C++", "JavaScript", "SQL", "HTML", "CSS", "Node.js", "React.js",
+      "Express.js", "Tailwind CSS", "Git", "GitHub", "Postman", "VS Code",
+      "MongoDB", "DBMS", "Operating Systems", "Object-Oriented Programming",
+      "JWT Authentication", "CORS", "API Development", "Vercel"
+    ],
+    "education": "Bachelor's degree"
+  },
+  "resume03": {
+    "skills": [
+      "C", "C++", "Python", "JavaScript", "TypeScript", "Java", "SQL", "HTML",
+      "CSS", "React.js", "Node.js", "Express.js", "Tailwind CSS", "Docker",
+      "Vercel", "Render", "MySQL", "MongoDB Atlas", "PostgreSQL", "DynamoDB",
+      "Scikit-learn", "Pandas", "NLTK", "Word2Vec", "Data Preprocessing",
+      "Model Deployment", "Git", "GitHub", "VS Code", "Figma",
+      "Data Structures & Algorithms", "Operating Systems",
+      "Object-Oriented Programming", "Database Management", "API Development",
+      "Flask", "SVM", "Gensim", "BeautifulSoup", "Razorpay",
+      "Google Gemini API", "JWT", "Google OAuth 2.0", "Joblib",
+      "Machine Learning", "Natural Language Processing", "MERN Stack"
+    ],
+    "education": "Master's degree"
+  },
+  "resume04": {
+    "skills": [
+      "C++", "JavaScript", "Python", "C", "React.js", "Node.js", "Express.js",
+      "HTML", "CSS", "API Development", "JWT Authentication", "MongoDB",
+      "RDBMS", "Data Structures & Algorithms", "Object-Oriented Programming",
+      "DBMS", "Operating Systems", "System Design", "Git", "GitHub",
+      "VS Code", "Version Control"
+    ],
+    "education": "Master's degree"
+  },
+  "resume05": {
+    "skills": [
+      "C++", "JavaScript", "Python", "C", "React.js", "Node.js", "Express.js",
+      "HTML", "CSS", "API Development", "MERN Stack", "MongoDB", "RDBMS",
+      "Data Structures & Algorithms", "Object-Oriented Programming", "DBMS",
+      "Operating Systems", "System Design", "Git", "GitHub", "VS Code",
+      "Version Control", "JWT Authentication"
+    ],
+    "education": "Master's degree"
+  },
+  "resume06": {
+    "skills": [
+      "C++", "C", "Python", "JavaScript", "HTML", "CSS", "React.js",
+      "Node.js", "Express.js", "API Development", "MongoDB", "Mongoose",
+      "RDBMS", "Data Structures & Algorithms", "Object-Oriented Programming",
+      "DBMS", "Operating Systems", "System Design", "JWT Authentication",
+      "XSS Protection", "Git", "GitHub", "VS Code", "MERN Stack",
+      "OpenRouter API", "Firebase", "Razorpay", "EJS", "Tailwind CSS"
+    ],
+    "education": "Master's degree"
+  }
+}

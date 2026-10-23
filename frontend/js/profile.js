@@ -90,8 +90,9 @@ document.getElementById("parseBtn").addEventListener("click", async () => {
     if (p.field_of_study) document.getElementById("field_of_study").value = p.field_of_study;
     if (p.experience_years) document.getElementById("experience_years").value = p.experience_years;
 
+       const roles = p.roles && p.roles.length ? ` Job titles spotted: ${p.roles.join(", ")}.` : "";
     showMessage(
-      `Found ${p.skills.length} skills. Check the form, then click Save profile.`,
+      `Found ${p.skills.length} skills.${roles} Check the form, then click Save profile.`,
       "info"
     );
   } catch (err) {
