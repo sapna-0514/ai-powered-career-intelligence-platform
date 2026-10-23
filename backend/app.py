@@ -1,26 +1,30 @@
 import os
 from datetime import datetime, timezone
 from functools import wraps
+from pathlib import Path
+
+import joblib
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
-from supabase import create_client 
+from supabase import create_client
+
 from resume_parser import extract_text, parse_resume
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024   # 5 MB upload limit
-
-
-@app.errorhandler(413)
-def too_large(e):
-    return jsonify(error="File is too large. The limit is 5 MB."), 413
 # Lets the frontend (Live Server, port 5500) call this API (port 5000)
 CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500"])
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+
+@app.errorhandler(413)
+def too_large(e):
+    return jsonify(error="File is too large. The limit is 5 MB."), 413
 
 
 def get_client():
@@ -66,12 +70,54 @@ def clean_list(value, limit=50):
     return out[:limit]
 
 
+# ---------- Career model ----------
+MODEL_PATH = Path(__file__).parent / "models" / "baseline_tfidf.joblib"
+_model = None
+
+
+def get_model():
+    """Loads the trained model once. Returns None if it is missing or old-format."""
+    global _model
+    if _model is None and MODEL_PATH.exists():
+        loaded = joblib.load(MODEL_PATH)
+        if hasattr(loaded, "predict_proba"):
+            _model = loaded
+    return _model
+
+
+def pretty(name):
+    return name.replace("-", " ").title()
+
+
+def profile_text(p):
+    """Turns a saved profile into text for the model (the target career is left out)."""
+    parts = [
+        p.get("field_of_study"),
+        p.get("education"),
+        " ".join(p.get("skills") or []),
+        " ".join(p.get("certifications") or []),
+        p.get("summary"),
+    ]
+    return ". ".join(x for x in parts if x)
+
+
+def predict_careers(profile, top_n=5):
+    model = get_model()
+    if model is None or not profile or not profile.get("skills"):
+        return None
+    proba = model.predict_proba([profile_text(profile)])[0]
+    top = proba.argsort()[::-1][:top_n]
+    return [{"name": pretty(model.classes_[i]),
+             "confidence": round(float(proba[i]) * 100, 1)} for i in top]
+
+
 def load_profile(user):
     res = (user_client().table("profiles")
            .select("*").eq("user_id", user.id).execute())
     return res.data[0] if res.data else None
 
 
+# ---------- Auth ----------
 @app.post("/api/signup")
 def signup():
     body = request.get_json(silent=True) or {}
@@ -123,6 +169,7 @@ def me(user):
     )
 
 
+# ---------- Profile ----------
 @app.get("/api/profile")
 @token_required
 def get_profile(user):
@@ -166,6 +213,8 @@ def save_profile(user):
         print("Profile save error:", e)
         return jsonify(error="Could not save your profile."), 500
 
+
+# ---------- Resume upload ----------
 @app.post("/api/resume/parse")
 @token_required
 def parse_resume_route(user):
@@ -189,6 +238,23 @@ def parse_resume_route(user):
     return jsonify(parsed=parse_resume(text))
 
 
+# ---------- Career prediction ----------
+@app.get("/api/predict")
+@token_required
+def predict(user):
+    if get_model() is None:
+        return jsonify(error="The model is not available yet. Run train_baseline_tuned.py."), 503
+    try:
+        profile = load_profile(user)
+    except Exception as e:
+        print("Predict profile error:", e)
+        return jsonify(error="Could not load your profile."), 500
+    if not profile or not profile.get("skills"):
+        return jsonify(error="Add your skills on My Profile first."), 400
+    return jsonify(careers=predict_careers(profile))
+
+
+# ---------- Dashboard ----------
 @app.get("/api/dashboard")
 @token_required
 def dashboard(user):
@@ -201,23 +267,31 @@ def dashboard(user):
     skills = len(profile["skills"] or []) if profile else 0
     certs = len(profile["certifications"] or []) if profile else 0
 
-    # Score, paths and drive are still placeholders. The ML model replaces them later.
+    careers = predict_careers(profile) if profile else None
+    if careers:
+        paths = [{"name": c["name"], "match": c["confidence"]} for c in careers[:3]]
+        score = round(careers[0]["confidence"])
+    else:
+        # No profile or no model yet: placeholders
+        paths = [
+            {"name": "Software Developer", "match": 92},
+            {"name": "Data Analyst", "match": 88},
+            {"name": "Cloud Engineer", "match": 80},
+        ]
+        score = 85
+
     return jsonify(
         user={
             "email": user.email,
             "name": (user.user_metadata or {}).get("full_name", "there"),
         },
         has_profile=profile is not None,
-        score=85,
+        score=score,
         skills=skills,
         skills_change="From your profile",
         certs=certs,
         certs_change="From your profile",
-        paths=[
-            {"name": "Software Developer", "match": 92},
-            {"name": "Data Analyst", "match": 88},
-            {"name": "Cloud Engineer", "match": 80},
-        ],
+        paths=paths,
         drive={"company": "Infosys", "role": "Software Developer"},
     )
 
