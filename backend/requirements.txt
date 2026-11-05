@@ -1,9 +1,0 @@
-flask
-flask-cors
-supabase
-python-dotenv
-spacy
-pypdf
-python-docx
-pandas
-scikit-learn

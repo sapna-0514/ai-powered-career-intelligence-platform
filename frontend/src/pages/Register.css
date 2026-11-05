@@ -1,0 +1,457 @@
+
+/* =========================================
+   CAREERCAST REGISTER PAGE
+========================================= */
+
+.register-page {
+    min-height: 100vh;
+}
+
+/* =========================================
+   REGISTER MAIN LAYOUT
+========================================= */
+
+.register-main {
+    min-height: calc(100vh - 145px);
+    padding-top: 15px;
+    padding-bottom: 25px;
+    column-gap: 60px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(460px, 0.95fr);
+}
+
+.register-main .login-hero {
+    align-self: center;
+}
+
+.register-main .login-hero-description {
+    max-width: 510px;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   RESUME ILLUSTRATION
+========================================= */
+
+.register-illustration {
+    height: 260px;
+    margin-top: 25px;
+}
+
+.resume-card {
+    position: absolute;
+    width: 205px;
+    height: 245px;
+    top: 5px;
+    left: 32%;
+    padding: 19px 17px;
+    border-radius: 17px;
+    border: 1px solid rgba(91, 156, 255, 0.65);
+    background: linear-gradient(150deg, #16428e, #0b1b42 75%);
+    box-shadow:
+        0 15px 50px rgba(0, 45, 160, 0.35),
+        inset 0 1px 15px rgba(100, 170, 255, 0.08);
+    transform: rotate(5deg);
+    z-index: 1;
+}
+
+.resume-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.resume-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c3e9ff;
+    background: linear-gradient(135deg, #238aff, #8a78ff);
+    flex-shrink: 0;
+}
+
+.resume-avatar svg {
+    width: 28px;
+    height: 28px;
+}
+
+.resume-card-header h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.resume-card-header span {
+    display: block;
+    margin-top: 4px;
+    font-size: 9px;
+    color: #a8c8ef;
+}
+
+.resume-progress {
+    height: 6px;
+    width: 100%;
+    border-radius: 10px;
+    background: #263e71;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.resume-progress span {
+    display: block;
+    width: 75%;
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #29c5f5, #6575ff);
+}
+
+.resume-line {
+    height: 6px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #4b80e7, #254b9a);
+    opacity: 0.85;
+}
+
+.resume-line.long {
+    width: 100%;
+}
+
+.resume-line.medium {
+    width: 75%;
+}
+
+.resume-line.short {
+    width: 55%;
+}
+
+.resume-section-title {
+    margin-top: 16px;
+    margin-bottom: 9px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #5ed7ff;
+}
+
+.resume-upload {
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    left: 50%;
+    bottom: -25px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #3a9cff;
+    border-radius: 50%;
+    background: #102b69;
+    box-shadow: 0 0 25px rgba(45, 139, 255, 0.6);
+}
+
+.resume-upload span {
+    font-size: 29px;
+    font-weight: 700;
+    color: #69dcff;
+}
+
+/* Floating Resume Cards */
+
+.resume-floating {
+    position: absolute;
+    z-index: 2;
+    padding: 13px 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+}
+
+.skills-resume {
+    top: 15px;
+    left: 8%;
+    color: #63f2e6;
+    background: linear-gradient(135deg, #075a72, #087e91);
+    border: 1px solid #23d4cb;
+    transform: rotate(-10deg);
+}
+
+.education-resume {
+    left: 4%;
+    bottom: 38px;
+    color: #e4c8ff;
+    background: linear-gradient(135deg, #5724a7, #7838d3);
+    border: 1px solid #b36cff;
+    transform: rotate(-6deg);
+}
+
+.experience-resume {
+    top: 85px;
+    right: 1%;
+    color: #d4eaff;
+    background: linear-gradient(135deg, #1253a7, #116edc);
+    border: 1px solid #389bff;
+    transform: rotate(-8deg);
+}
+
+.certification-resume {
+    bottom: 12px;
+    right: 5%;
+    color: #ffe1ba;
+    background: linear-gradient(135deg, #a94d19, #d17b25);
+    border: 1px solid #ffae53;
+    transform: rotate(5deg);
+}
+
+/* =========================================
+   REGISTER FORM CARD
+========================================= */
+
+.register-form-section {
+    align-self: center;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 570px;
+    padding: 29px 36px;
+    border-radius: 18px;
+}
+
+.register-card-heading {
+    margin-bottom: 23px;
+}
+
+.register-card-heading .login-card-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.register-card-heading h2 {
+    font-size: 25px;
+}
+
+.register-card-heading p {
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+/* =========================================
+   REGISTER INPUT SPACING
+========================================= */
+
+.register-card .login-form-group {
+    margin-bottom: 14px;
+}
+
+.register-card .login-form-group label {
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.register-card .login-input-wrapper {
+    height: 46px;
+    border-radius: 9px;
+    gap: 11px;
+    padding: 0 12px;
+}
+
+.register-card .login-input-wrapper > svg {
+    width: 17px;
+    height: 17px;
+}
+
+.register-card .login-input-wrapper input {
+    font-size: 12px;
+}
+
+.register-card .login-input-wrapper input::placeholder {
+    font-size: 11px;
+}
+
+.register-card .login-password-toggle {
+    font-size: 10px;
+}
+
+/* =========================================
+   TERMS AND CONDITIONS
+========================================= */
+
+.register-terms {
+    margin-top: 3px;
+    margin-bottom: 19px;
+}
+
+.register-terms label {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    cursor: pointer;
+}
+
+.register-terms input {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    margin: 2px 0 0;
+    accent-color: #268cff;
+    cursor: pointer;
+}
+
+.register-terms span {
+    color: #b5c3d9;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.register-terms a {
+    color: #35baff;
+    font-weight: 500;
+}
+
+.register-terms a:hover {
+    color: #8bdfff;
+    text-decoration: underline;
+}
+
+/* =========================================
+   REGISTER BUTTON
+========================================= */
+
+.register-submit-button {
+    min-height: 47px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+/* =========================================
+   REGISTER DIVIDER
+========================================= */
+
+.register-card .login-divider {
+    margin-top: 19px;
+    margin-bottom: 15px;
+}
+
+.register-card .login-social-buttons button {
+    min-height: 40px;
+}
+
+/* =========================================
+   REGISTER FOOTER LINK
+========================================= */
+
+.register-card .login-register-link {
+    margin-top: 19px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .register-main {
+        column-gap: 35px;
+        grid-template-columns: minmax(0, 1fr) minmax(400px, 0.95fr);
+    }
+
+    .register-card {
+        padding: 26px 25px;
+    }
+
+    .register-illustration {
+        transform: scale(0.92);
+        transform-origin: left center;
+        width: 110%;
+    }
+
+}
+
+/* =========================================
+   MOBILE / TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+    .register-main {
+        grid-template-columns: 1fr;
+        row-gap: 35px;
+        padding-top: 35px;
+        padding-bottom: 40px;
+    }
+
+    .register-main .login-hero {
+        align-items: center;
+        text-align: center;
+    }
+
+    .register-main .login-hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .register-main .login-features {
+        text-align: left;
+    }
+
+    .register-illustration {
+        width: min(100%, 550px);
+        transform: none;
+        margin-top: 25px;
+    }
+
+    .register-form-section {
+        justify-content: center;
+    }
+
+    .register-card {
+        max-width: 570px;
+    }
+
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .register-card {
+        padding: 25px 19px;
+    }
+
+    .register-card-heading h2 {
+        font-size: 23px;
+    }
+
+    .register-illustration {
+        transform: scale(0.9);
+        transform-origin: top left;
+        width: 110%;
+        margin-bottom: -20px;
+    }
+
+    .register-card .login-input-wrapper {
+        height: 47px;
+    }
+
+    .register-terms span {
+        font-size: 10px;
+    }
+
+    .register-card .login-social-buttons {
+        gap: 6px;
+    }
+
+}
