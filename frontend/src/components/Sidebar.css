@@ -1,0 +1,113 @@
+/* ---------- Shell ---------- */
+.ci-shell { min-height: 100vh; background: var(--bg-main, #071426); }
+
+.ci-content {
+    margin-left: var(--ci-sidebar-w, 265px);
+    min-height: 100vh;
+    transition: margin-left 0.25s ease;
+}
+
+/* Old per-page sidebar offsets are replaced by the shell's offset. */
+.ci-content .dashboard-main,
+.ci-content .ra-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
+/* ---------- Sidebar ---------- */
+.ci-sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    width: 265px;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 14px 16px;
+    background: linear-gradient(180deg, #0b1456 0%, #070f3d 100%);
+    border-right: 1px solid rgba(148, 170, 205, 0.13);
+    transition: width 0.25s ease, transform 0.25s ease;
+}
+
+/* Brand */
+.ci-brand {
+    display: flex; align-items: center; gap: 11px;
+    padding: 0 8px 24px; position: relative;
+}
+.ci-logo {
+    width: 42px; height: 42px; flex-shrink: 0;
+    display: grid; place-items: center; border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, #7c4dff, #25c8e8);
+}
+.ci-brand-text h1 {
+    font-size: 21px; font-weight: 800; letter-spacing: -0.5px; color: #fff;
+    white-space: nowrap;
+}
+.ci-brand-text h1 span { color: #3b82f6; }
+.ci-brand-text p {
+    margin-top: 2px; font-size: 10px; font-weight: 600;
+    letter-spacing: 2px; color: #8fa3d6;
+}
+
+/* Navigation */
+.ci-nav {
+    flex: 1; display: flex; flex-direction: column; gap: 4px;
+    overflow-y: auto; overflow-x: hidden; padding-right: 2px;
+}
+.ci-link {
+    display: flex; align-items: center; gap: 14px;
+    width: 100%; padding: 12px 14px; border: 0; border-radius: 10px;
+    background: transparent; color: #c9d4f5;
+    font: inherit; font-size: 14px; font-weight: 500;
+    text-decoration: none; cursor: pointer; white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+}
+.ci-link svg { flex-shrink: 0; }
+.ci-link:hover { background: rgba(255, 255, 255, 0.07); color: #fff; }
+.ci-link.active {
+    color: #fff; font-weight: 600;
+    background: linear-gradient(90deg, #4338ca, #6d4df2);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+}
+.ci-logout { margin-top: 8px; color: #f1a3a3; }
+.ci-logout:hover { background: rgba(239, 68, 68, 0.15); color: #fecaca; }
+
+/* Collapse arrow (sits on the sidebar edge) */
+.ci-collapse {
+    position: absolute; top: 50%; right: -14px; transform: translateY(-50%);
+    width: 28px; height: 28px; display: grid; place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 50%;
+    background: #0b1456; color: #fff; cursor: pointer;
+    transition: background 0.15s;
+}
+.ci-collapse:hover { background: #4338ca; }
+.ci-collapse svg { transition: transform 0.25s; }
+.ci-collapsed .ci-collapse svg { transform: rotate(180deg); }
+
+.ci-mobile-close, .ci-overlay { display: none; }
+
+/* ---------- Collapsed (desktop only) ---------- */
+@media (min-width: 851px) {
+    .ci-sidebar.ci-collapsed { width: 80px; padding-left: 10px; padding-right: 10px; }
+    .ci-collapsed .ci-brand-text,
+    .ci-collapsed .ci-label { display: none; }
+    .ci-collapsed .ci-brand { justify-content: center; padding-left: 0; padding-right: 0; }
+    .ci-collapsed .ci-link { justify-content: center; padding: 12px 0; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 850px) {
+    .ci-content { margin-left: 0; }
+    .ci-sidebar { transform: translateX(-100%); }
+    .ci-sidebar.ci-open { transform: translateX(0); }
+    .ci-collapse { display: none; }
+    .ci-mobile-close {
+        display: grid; place-items: center; margin-left: auto;
+        width: 34px; height: 34px; border: 0; border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer;
+    }
+    .ci-overlay {
+        display: block; position: fixed; inset: 0; z-index: 35;
+        border: 0; background: rgba(2, 8, 30, 0.6);
+    }
+}

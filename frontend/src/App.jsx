@@ -1,41 +1,57 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
-import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import ResumeAnalyzer from "./pages/ResumeAnalyzer";
+import PlaceholderPage from "./pages/PlaceholderPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import AppLayout from "./components/AppLayout";
+import { navigationItems } from "./config/navigation";
 
 function App() {
-
     return (
         <BrowserRouter>
-
             <Toaster position="top-right" />
 
             <Routes>
-
                 <Route path="/" element={<Navigate to="/login" replace />} />
-
                 <Route path="/login" element={<Login />} />
-
                 <Route path="/register" element={<Register />} />
 
                 <Route element={<ProtectedRoute />}>
-
+                    {/* Profile keeps its own full-page layout */}
                     <Route path="/profile" element={<Profile />} />
 
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    {/* Everything inside here gets the shared sidebar */}
+                    <Route element={<AppLayout />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
 
-                    <Route path="/resume-analyzer" element={<ResumeAnalyzer />}/>
-
+                        {navigationItems
+                            .filter((item) => item.placeholder)
+                            .map((item) => (
+                                <Route
+                                    key={item.path}
+                                    path={item.path}
+                                    element={
+                                        <PlaceholderPage
+                                            title={item.label}
+                                            description={item.description}
+                                            icon={item.icon}
+                                            features={item.features}
+                                        />
+                                    }
+                                />
+                            ))}
+                    </Route>
                 </Route>
 
+                <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
-
         </BrowserRouter>
     );
 }
