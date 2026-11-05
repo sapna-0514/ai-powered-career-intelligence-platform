@@ -7,7 +7,7 @@ import {
 export const navigationItems = [
     { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
     {
-        label: "Career Intelligence", path: "/career-intelligence", icon: Target, placeholder: true,
+        label: "Career Intelligence", path: "/career-intelligence", icon: Target,
         description: "AI-powered career recommendations based on your skills and profile.",
         features: ["Ranked career matches", "Demand and growth insights", "Skill alignment scores"]
     },

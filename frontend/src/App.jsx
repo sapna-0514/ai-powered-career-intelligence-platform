@@ -10,6 +10,7 @@ import PlaceholderPage from "./pages/PlaceholderPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/AppLayout";
+import CareerExplorer from "./pages/CareerExplorer";
 import { navigationItems } from "./config/navigation";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/career-explorer" element={<CareerExplorer />} />
 
                 <Route element={<ProtectedRoute />}>
                     {/* Profile keeps its own full-page layout */}
