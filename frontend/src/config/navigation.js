@@ -12,23 +12,23 @@ export const navigationItems = [
         features: ["Ranked career matches", "Demand and growth insights", "Skill alignment scores"]
     },
     {
-        label: "Skill Analysis", path: "/skill-analysis", icon: Network, placeholder: true,
+        label: "Skill Analysis", path: "/skill-analysis", icon: Network,
         description: "See where your skills stand against your target role.",
         features: ["Skill gap radar chart", "Matched vs missing skills", "Readiness score"]
     },
     {
-        label: "Learning Path", path: "/learning-path", icon: BookOpenCheck, placeholder: true,
+        label: "Learning Path", path: "/learning-path", icon: BookOpenCheck,
         description: "A personalised step-by-step roadmap to reach your goal role.",
         features: ["Weekly learning plan", "Recommended courses", "Progress tracking"]
     },
     { label: "Resume Analyzer", path: "/resume-analyzer", icon: FileText },
     {
-        label: "Mock Interview", path: "/mock-interview", icon: SquareUser, placeholder: true,
+        label: "Mock Interview", path: "/mock-interview", icon: SquareUser,
         description: "Practise interviews with AI-generated questions and feedback.",
         features: ["Role-based question sets", "Answer scoring", "Improvement tips"]
     },
     {
-        label: "Job Recommendations", path: "/job-recommendations", icon: Waypoints, placeholder: true,
+        label: "Job Recommendations", path: "/job-recommendations", icon: Waypoints,
         description: "Job openings matched to your skills and preferences.",
         features: ["Skill-matched openings", "Match percentage", "Save and track jobs"]
     },

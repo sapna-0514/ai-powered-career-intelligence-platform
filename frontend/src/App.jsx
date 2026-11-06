@@ -11,6 +11,10 @@ import PlaceholderPage from "./pages/PlaceholderPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/AppLayout";
 import CareerExplorer from "./pages/CareerExplorer";
+import SkillAnalysis from "./pages/SkillAnalysis";
+import LearningPath from "./pages/LearningPath";
+import MockInterview from "./pages/MockInterview";
+import JobRecommendations from "./pages/JobRecommendations";
 import { navigationItems } from "./config/navigation";
 
 function App() {
@@ -23,6 +27,10 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/career-explorer" element={<CareerExplorer />} />
+                <Route path="/skill-analysis" element={<SkillAnalysis />} />
+                <Route path="/learning-path" element={<LearningPath />} />
+                <Route path="/mock-interview" element={<MockInterview />} />
+                <Route path="/job-recommendations" element={<JobRecommendations />} />
 
                 <Route element={<ProtectedRoute />}>
                     {/* Profile keeps its own full-page layout */}
