@@ -38,7 +38,7 @@ export const navigationItems = [
         features: ["Drive calendar", "Eligibility check", "One-click apply"]
     },
     {
-        label: "Assessments", path: "/assessments", icon: ClipboardList, placeholder: true,
+        label: "Assessments", path: "/assessments", icon: ClipboardList,
         description: "Skill tests to measure and prove your proficiency.",
         features: ["Topic-wise quizzes", "Instant results", "Score history"]
     },

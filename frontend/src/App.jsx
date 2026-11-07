@@ -15,6 +15,7 @@ import SkillAnalysis from "./pages/SkillAnalysis";
 import LearningPath from "./pages/LearningPath";
 import MockInterview from "./pages/MockInterview";
 import JobRecommendations from "./pages/JobRecommendations";
+import Assessments from "./pages/Assessments";
 import { navigationItems } from "./config/navigation";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/learning-path" element={<LearningPath />} />
                 <Route path="/mock-interview" element={<MockInterview />} />
                 <Route path="/job-recommendations" element={<JobRecommendations />} />
+                <Route path="/assessments" element={<Assessments />} />
 
                 <Route element={<ProtectedRoute />}>
                     {/* Profile keeps its own full-page layout */}
