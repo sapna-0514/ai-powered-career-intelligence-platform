@@ -43,7 +43,7 @@ export const navigationItems = [
         features: ["Topic-wise quizzes", "Instant results", "Score history"]
     },
     {
-        label: "Certificates", path: "/certificates", icon: Award, placeholder: true,
+        label: "Certificates", path: "/certificates", icon: Award,
         description: "Store and showcase your certifications in one place.",
         features: ["Upload certificates", "Verification status", "Downloadable portfolio"]
     },
