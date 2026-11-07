@@ -1,0 +1,25 @@
+.ph-page {
+    min-height: 100vh; padding: 32px;
+    display: grid; place-items: center;
+    background: var(--bg-main, #071426); color: var(--text-primary, #edf4ff);
+}
+.ph-card {
+    width: 100%; max-width: 520px; padding: 40px 36px; text-align: center;
+    border-radius: 18px; border: 1px solid var(--border-color, rgba(148,170,205,.13));
+    background: var(--bg-card, #10213a);
+}
+.ph-icon {
+    width: 70px; height: 70px; margin: 0 auto 18px;
+    display: grid; place-items: center; border-radius: 18px; color: #fff;
+    background: linear-gradient(135deg, #4338ca, #6d4df2);
+}
+.ph-badge {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+    border-radius: 999px; font-size: 12px; font-weight: 600;
+    color: #fbbf24; background: rgba(251, 191, 36, 0.12);
+}
+.ph-card h1 { margin: 14px 0 8px; font-size: 26px; font-weight: 800; }
+.ph-card p { color: var(--text-secondary, #91a5c2); line-height: 1.6; }
+.ph-card ul { list-style: none; margin-top: 22px; display: grid; gap: 10px; text-align: left; }
+.ph-card li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #c9d4f5; }
+.ph-card li svg { color: #25c8e8; flex-shrink: 0; }

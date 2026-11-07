@@ -1,16 +1,12 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
     BrainCircuit,
-    LayoutDashboard,
-    Compass,
     FileText,
     ChartNoAxesColumnIncreasing,
     Route,
     Scale,
     ChartLine,
-    Settings,
     Bell,
     Search,
     ArrowUpRight,
@@ -19,10 +15,8 @@ import {
     Code2,
     BriefcaseBusiness,
     Sparkles,
-    LogOut,
     UserRound,
     Menu,
-    X,
     Target,
     CheckCircle2,
     Clock3
@@ -37,96 +31,93 @@ function Dashboard() {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    
-useEffect(() => {
-    let isMounted = true;
+    useEffect(() => {
+        let isMounted = true;
 
-    const fetchDashboard = async () => {
-        setLoading(true);
-        setError("");
+        const fetchDashboard = async () => {
+            setLoading(true);
+            setError("");
 
-        try {
-            const [userResult, profileResult] = await Promise.allSettled([
-                API.get("/auth/me"),
-                API.get("/profile")
-            ]);
+            try {
+                const [userResult, profileResult] = await Promise.allSettled([
+                    API.get("/auth/me"),
+                    API.get("/profile")
+                ]);
 
-            if (!isMounted) return;
+                if (!isMounted) return;
 
-            // Authentication check
-            if (userResult.status === "rejected") {
-                const status = userResult.reason.response?.status;
+                // Authentication check
+                if (userResult.status === "rejected") {
+                    const status = userResult.reason.response?.status;
 
-                if (status === 401) {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    navigate("/login", { replace: true });
-                    return;
-                }
-
-                throw userResult.reason;
-            }
-
-            // User information
-            setUser(userResult.value.data.user);
-
-            // Profile information
-            if (profileResult.status === "fulfilled") {
-                setProfile(
-                    profileResult.value.data.profile || {
-                        education: [],
-                        skills: [],
-                        interests: [],
-                        preferredCareer: []
+                    if (status === 401) {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        navigate("/login", { replace: true });
+                        return;
                     }
-                );
-            } else {
-                const status = profileResult.reason.response?.status;
 
-                if (status === 404) {
-                    // Profile does not exist yet.
-                    // Allow the dashboard to open.
-                    setProfile({
-                        education: [],
-                        skills: [],
-                        interests: [],
-                        preferredCareer: []
-                    });
-                } else if (status === 401) {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    navigate("/login", { replace: true });
-                    return;
+                    throw userResult.reason;
+                }
+
+                // User information
+                setUser(userResult.value.data.user);
+
+                // Profile information
+                if (profileResult.status === "fulfilled") {
+                    setProfile(
+                        profileResult.value.data.profile || {
+                            education: [],
+                            skills: [],
+                            interests: [],
+                            preferredCareer: []
+                        }
+                    );
                 } else {
-                    throw profileResult.reason;
+                    const status = profileResult.reason.response?.status;
+
+                    if (status === 404) {
+                        // Profile does not exist yet.
+                        // Allow the dashboard to open.
+                        setProfile({
+                            education: [],
+                            skills: [],
+                            interests: [],
+                            preferredCareer: []
+                        });
+                    } else if (status === 401) {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        navigate("/login", { replace: true });
+                        return;
+                    } else {
+                        throw profileResult.reason;
+                    }
+                }
+
+            } catch (err) {
+                console.error("Dashboard error:", err);
+
+                if (isMounted) {
+                    setError(
+                        err.response?.data?.message ||
+                        "Unable to load your dashboard. Please try again."
+                    );
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
                 }
             }
+        };
 
-        } catch (err) {
-            console.error("Dashboard error:", err);
+        fetchDashboard();
 
-            if (isMounted) {
-                setError(
-                    err.response?.data?.message ||
-                    "Unable to load your dashboard. Please try again."
-                );
-            }
-        } finally {
-            if (isMounted) {
-                setLoading(false);
-            }
-        }
-    };
-
-    fetchDashboard();
-
-    return () => {
-        isMounted = false;
-    };
-}, [navigate]);
-
+        return () => {
+            isMounted = false;
+        };
+    }, [navigate]);
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -136,6 +127,11 @@ useEffect(() => {
 
     const retryLoading = () => {
         window.location.reload();
+    };
+
+    // Opens the shared sidebar (see components/Sidebar.jsx) on mobile.
+    const openSidebar = () => {
+        window.dispatchEvent(new Event("ci:open-sidebar"));
     };
 
     const skills = profile?.skills || [];
@@ -153,17 +149,6 @@ useEffect(() => {
     const profileCompletion = Math.round(
         (completedSections / 4) * 100
     );
-
-    const navigationItems = [
-        { label: "Dashboard", icon: LayoutDashboard, active: true },
-        { label: "AI Career Explorer", icon: Compass, comingSoon: true },
-        { label: "Resume Analyzer", icon: FileText, path: "/resume-analyzer" },
-        { label: "Skill Gap Analysis", icon: ChartNoAxesColumnIncreasing, comingSoon: true },
-        { label: "Career Roadmap", icon: Route, comingSoon: true },
-        { label: "Career Comparison", icon: Scale, comingSoon: true },
-        { label: "Reports & Analytics", icon: ChartLine, comingSoon: true },
-        { label: "Profile & Settings", icon: Settings, path: "/profile" }
-    ];
 
     if (loading) {
         return (
@@ -201,98 +186,7 @@ useEffect(() => {
     return (
         <div className="dashboard-layout">
 
-            {/* Mobile overlay */}
-            {sidebarOpen && (
-                <div
-                    className="sidebar-overlay"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
-
-            {/* Sidebar */}
-            <aside className={`dashboard-sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
-
-                <div className="brand">
-                    <div className="brand-icon">
-                        <BrainCircuit size={32} />
-                    </div>
-                    <div>
-                        <h1>Career<span>Cast</span></h1>
-                        <p>AI Career Intelligence</p>
-                    </div>
-
-                    <button
-                        className="mobile-close"
-                        onClick={() => setSidebarOpen(false)}
-                        aria-label="Close navigation"
-                    >
-                        <X size={22} />
-                    </button>
-                </div>
-
-                <div className="sidebar-section-label">
-                    WORKSPACE
-                </div>
-
-                <nav className="sidebar-navigation">
-                    {navigationItems.map((item) => {
-                        const Icon = item.icon;
-
-                        const content = (
-                            <>
-                                <Icon size={20} />
-                                <span>{item.label}</span>
-                                {item.comingSoon && (
-                                    <span className="coming-soon">Soon</span>
-                                )}
-                            </>
-                        );
-
-                        if (item.path) {
-                            return (
-                                <Link
-                                    key={item.label}
-                                    to={item.path}
-                                    className={`sidebar-link ${item.active ? "active" : ""}`}
-                                    onClick={() => setSidebarOpen(false)}
-                                >
-                                    {content}
-                                </Link>
-                            );
-                        }
-
-                        return (
-                            <div
-                                key={item.label}
-                                className="sidebar-link disabled-link"
-                                title="This feature is coming soon"
-                            >
-                                {content}
-                            </div>
-                        );
-                    })}
-                </nav>
-
-                <div className="sidebar-bottom">
-                    <div className="upgrade-card">
-                        <div className="upgrade-icon">
-                            <Sparkles size={24} />
-                        </div>
-                        <h3>Your career journey starts here</h3>
-                        <p>Complete your profile and analyze your resume to get personalized insights.</p>
-                        <Link to="/resume-analyzer" className="upgrade-button">
-                            Analyze Resume <ArrowRight size={16} />
-                        </Link>
-                    </div>
-
-                    <button className="logout-button" onClick={logout}>
-                        <LogOut size={19} />
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main content */}
+            {/* Main content (the sidebar now comes from AppLayout) */}
             <main className="dashboard-main">
 
                 {/* Topbar */}
@@ -300,7 +194,7 @@ useEffect(() => {
                     <div className="topbar-left">
                         <button
                             className="mobile-menu"
-                            onClick={() => setSidebarOpen(true)}
+                            onClick={openSidebar}
                             aria-label="Open navigation"
                         >
                             <Menu size={23} />
@@ -621,7 +515,7 @@ useEffect(() => {
                     </section>
 
                     <footer className="dashboard-footer">
-                        <span>© {new Date().getFullYear()} CareerCast</span>
+                        <span>© {new Date().getFullYear()} CareerInfinity</span>
                         <span>AI-powered career intelligence</span>
                     </footer>
 

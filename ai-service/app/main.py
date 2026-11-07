@@ -7,6 +7,7 @@ from tempfile import NamedTemporaryFile
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
 from app.security import verify_internal_key
 from app.services.resume_parser import analyze_resume
+from app.score_answer import router as score_answer_router
 
 MAX_FILE_SIZE = 5 * 1024 * 1024
 ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt"}
@@ -16,6 +17,9 @@ app = FastAPI(
     description="Resume text extraction and rule-assisted resume insights",
     version="1.1.0"
 )
+
+# Register routers only AFTER app is created
+app.include_router(score_answer_router)
 
 
 @app.get("/")

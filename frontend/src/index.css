@@ -21,11 +21,6 @@
     --purple: #9060f5;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 html,
 body,
@@ -3092,4 +3087,16 @@ a {
         max-width: 100%;
         padding: 19px 14px;
     }
+}
+
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+  body {
+    background-color: #020617; /* keep your existing dark colour */
+  }
 }
