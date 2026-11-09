@@ -42,3 +42,16 @@ __pycache__/
 .DS_Store
 
 backend/storage/
+
+
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+dist/
+coverage/
+backend/storage/

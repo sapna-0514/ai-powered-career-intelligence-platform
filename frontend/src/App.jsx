@@ -17,6 +17,10 @@ import MockInterview from "./pages/MockInterview";
 import JobRecommendations from "./pages/JobRecommendations";
 import Assessments from "./pages/Assessments";
 import Certificates from "./pages/Certificates";
+import PlacementDrives from "./pages/PlacementDrives";
+import HelpSupport from "./pages/HelpSupport";
+import Settings from "./pages/Settings";
+import NotFound from "./pages/NotFound";
 import { navigationItems } from "./config/navigation";
 
 function App() {
@@ -35,6 +39,10 @@ function App() {
                 <Route path="/job-recommendations" element={<JobRecommendations />} />
                 <Route path="/assessments" element={<Assessments />} />
                 <Route path="/certificates" element={<Certificates />} />
+                <Route path="/placement-drives" element={<PlacementDrives />} />
+                <Route path="/help" element={<HelpSupport />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="*" element={<NotFound />} />
 
                 <Route element={<ProtectedRoute />}>
                     {/* Profile keeps its own full-page layout */}

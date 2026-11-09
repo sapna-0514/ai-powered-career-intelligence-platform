@@ -8,7 +8,9 @@
     "dev": "nodemon server.js",
     "seed:questions": "node scripts/seedQuestions.js",
     "seed:jobs": "node scripts/seedJobs.js",
-    "seed:assessments": "node scripts/seedAssessments.js"
+    "seed:assessments": "node scripts/seedAssessments.js",
+    "seed:drives": "node scripts/seedDrives.js",
+     "test": "cross-env NODE_ENV=test jest --runInBand --forceExit"
   },
   "keywords": [],
   "author": "",
@@ -20,13 +22,24 @@
     "cors": "^2.8.6",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
+    "express-rate-limit": "^8.7.3",
     "express-validator": "^7.3.2",
     "form-data": "^4.0.6",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.2",
     "multer": "^2.5.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
-  }
+    "cross-env": "^10.1.0",
+    "jest": "^30.5.2",
+    "mongodb-memory-server": "^11.3.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.2"
+  },
+  "jest": {
+  "testEnvironment": "node",
+  "testTimeout": 60000,
+  "setupFiles": ["<rootDir>/tests/env.js"]
+}
 }
