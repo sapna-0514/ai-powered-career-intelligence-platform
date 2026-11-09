@@ -53,6 +53,9 @@ const profileSchema = new mongoose.Schema({
 
     // Preferred Career Roles
     preferredCareer: [String],
+    cgpa: { type: Number, min: 0, max: 10, default: null },
+branch: { type: String, trim: true, maxlength: 80, default: "" },
+graduationYear: { type: Number, min: 1990, max: 2100, default: null },
 
     // Future Career Goals
     goals: [String]

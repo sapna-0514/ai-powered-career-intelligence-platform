@@ -33,7 +33,7 @@ export const navigationItems = [
         features: ["Skill-matched openings", "Match percentage", "Save and track jobs"]
     },
     {
-        label: "Placement Drives", path: "/placement-drives", icon: BriefcaseBusiness, placeholder: true,
+        label: "Placement Drives", path: "/placement-drives", icon: BriefcaseBusiness, 
         description: "Upcoming campus and off-campus placement drives.",
         features: ["Drive calendar", "Eligibility check", "One-click apply"]
     },
@@ -43,13 +43,13 @@ export const navigationItems = [
         features: ["Topic-wise quizzes", "Instant results", "Score history"]
     },
     {
-        label: "Certificates", path: "/certificates", icon: Award, placeholder: true,
+        label: "Certificates", path: "/certificates", icon: Award,
         description: "Store and showcase your certifications in one place.",
         features: ["Upload certificates", "Verification status", "Downloadable portfolio"]
     },
     { label: "Settings", path: "/profile", icon: Settings },
     {
-        label: "Help & Support", path: "/help", icon: LifeBuoy, placeholder: true,
+        label: "Help & Support", path: "/help", icon: LifeBuoy,
         description: "Guides, FAQs and ways to contact support.",
         features: ["FAQs", "Getting-started guide", "Contact form"]
     }

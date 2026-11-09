@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 
 import API from "../services/api";
+import DashboardSummary from "../components/DashboardSummary";
+<DashboardSummary />
 
 function Dashboard() {
     const navigate = useNavigate();
