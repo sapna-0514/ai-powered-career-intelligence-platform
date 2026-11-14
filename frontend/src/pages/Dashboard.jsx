@@ -19,12 +19,14 @@ import {
     Menu,
     Target,
     CheckCircle2,
-    Clock3
+    Clock3,
+    ClipboardCheck,
+    MessageSquare,
+    Award,
+    CalendarClock
 } from "lucide-react";
 
 import API from "../services/api";
-import DashboardSummary from "../components/DashboardSummary";
-<DashboardSummary />
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -486,31 +488,81 @@ function Dashboard() {
                                 </Link>
                             </div>
 
-                            <div className="tool-card coming-card">
+                            <div className="tool-card">
                                 <div className="tool-icon purple">
                                     <ChartNoAxesColumnIncreasing size={25} />
                                 </div>
                                 <h3>Skill Gap Analysis</h3>
                                 <p>Discover the skills you need to develop for your desired career.</p>
-                                <span className="coming-label">Coming soon</span>
+                                <Link to="/skill-analysis" className="tool-link">
+                                    Analyze Skills <ArrowRight size={16} />
+                                </Link>
                             </div>
 
-                            <div className="tool-card coming-card">
+                            <div className="tool-card">
                                 <div className="tool-icon cyan">
                                     <Route size={25} />
                                 </div>
-                                <h3>Career Roadmap</h3>
+                                <h3>Learning Path</h3>
                                 <p>Plan your learning journey with a structured career development path.</p>
-                                <span className="coming-label">Coming soon</span>
+                                <Link to="/learning-path" className="tool-link">
+                                    Open Learning Path <ArrowRight size={16} />
+                                </Link>
                             </div>
 
-                            <div className="tool-card coming-card">
+                            <div className="tool-card">
                                 <div className="tool-icon pink">
                                     <Scale size={25} />
                                 </div>
-                                <h3>Career Comparison</h3>
-                                <p>Compare different career options and understand their skill requirements.</p>
-                                <span className="coming-label">Coming soon</span>
+                                <h3>Career Explorer</h3>
+                                <p>Compare career options and understand their skill requirements.</p>
+                                <Link to="/career-explorer" className="tool-link">
+                                    Explore Careers <ArrowRight size={16} />
+                                </Link>
+                            </div>
+
+                            <div className="tool-card">
+                                <div className="tool-icon blue">
+                                    <MessageSquare size={25} />
+                                </div>
+                                <h3>Mock Interview</h3>
+                                <p>Practice career-specific questions and get an automated estimate of your answers.</p>
+                                <Link to="/mock-interview" className="tool-link">
+                                    Start Practice <ArrowRight size={16} />
+                                </Link>
+                            </div>
+
+                            <div className="tool-card">
+                                <div className="tool-icon purple">
+                                    <ClipboardCheck size={25} />
+                                </div>
+                                <h3>Assessments</h3>
+                                <p>Take timed skill quizzes and review explanations.</p>
+                                <Link to="/assessments" className="tool-link">
+                                    Take a Quiz <ArrowRight size={16} />
+                                </Link>
+                            </div>
+
+                            <div className="tool-card">
+                                <div className="tool-icon cyan">
+                                    <Award size={25} />
+                                </div>
+                                <h3>Certificates</h3>
+                                <p>Track your certificates, expiry dates and the skills they show.</p>
+                                <Link to="/certificates" className="tool-link">
+                                    Manage Certificates <ArrowRight size={16} />
+                                </Link>
+                            </div>
+
+                            <div className="tool-card">
+                                <div className="tool-icon pink">
+                                    <CalendarClock size={25} />
+                                </div>
+                                <h3>Placement Drives</h3>
+                                <p>Check eligibility and deadlines for sample placement drives.</p>
+                                <Link to="/placement-drives" className="tool-link">
+                                    View Drives <ArrowRight size={16} />
+                                </Link>
                             </div>
 
                         </div>

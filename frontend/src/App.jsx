@@ -20,7 +20,6 @@ import Certificates from "./pages/Certificates";
 import PlacementDrives from "./pages/PlacementDrives";
 import HelpSupport from "./pages/HelpSupport";
 import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound";
 import { navigationItems } from "./config/navigation";
 
 function App() {
@@ -29,29 +28,28 @@ function App() {
             <Toaster position="top-right" />
 
             <Routes>
+                {/* Public routes */}
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/career-explorer" element={<CareerExplorer />} />
-                <Route path="/skill-analysis" element={<SkillAnalysis />} />
-                <Route path="/learning-path" element={<LearningPath />} />
-                <Route path="/mock-interview" element={<MockInterview />} />
-                <Route path="/job-recommendations" element={<JobRecommendations />} />
-                <Route path="/assessments" element={<Assessments />} />
-                <Route path="/certificates" element={<Certificates />} />
-                <Route path="/placement-drives" element={<PlacementDrives />} />
-                <Route path="/help" element={<HelpSupport />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="*" element={<NotFound />} />
 
+                {/* Protected routes */}
                 <Route element={<ProtectedRoute />}>
-                    {/* Profile keeps its own full-page layout */}
-                    <Route path="/profile" element={<Profile />} />
-
                     {/* Everything inside here gets the shared sidebar */}
                     <Route element={<AppLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
+                        <Route path="/career-explorer" element={<CareerExplorer />} />
+                        <Route path="/skill-analysis" element={<SkillAnalysis />} />
+                        <Route path="/learning-path" element={<LearningPath />} />
+                        <Route path="/mock-interview" element={<MockInterview />} />
+                        <Route path="/job-recommendations" element={<JobRecommendations />} />
+                        <Route path="/assessments" element={<Assessments />} />
+                        <Route path="/certificates" element={<Certificates />} />
+                        <Route path="/placement-drives" element={<PlacementDrives />} />
+                        <Route path="/help" element={<HelpSupport />} />
+                        <Route path="/settings" element={<Settings />} />
 
                         {navigationItems
                             .filter((item) => item.placeholder)
@@ -72,6 +70,7 @@ function App() {
                     </Route>
                 </Route>
 
+                {/* Anything unknown goes to the dashboard */}
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
         </BrowserRouter>
